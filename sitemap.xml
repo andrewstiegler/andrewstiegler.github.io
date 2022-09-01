@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
+  <url>
+    <loc>https://andrewstiegler.github.io/about.html</loc>
+    <lastmod>2022-09-01T15:47:34+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://andrewstiegler.github.io/</loc>
+    <lastmod>2022-09-01T16:06:49+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://andrewstiegler.github.io/posts/welcome/</loc>
+    <lastmod>2022-09-01T15:47:35+00:00</lastmod>
+  </url>
+</urlset>

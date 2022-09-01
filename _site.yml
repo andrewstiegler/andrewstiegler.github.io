@@ -2,7 +2,10 @@ name: "Andrew's Data Blog"
 title: "Data explorations"
 description: |
   Using data and statistics to answer fun questions about stuff.
+base_url: https://andrewstiegler.github.io/
 output_dir: "."
+collections:
+  posts:
 navbar:
   right:
     - text: "Home"
