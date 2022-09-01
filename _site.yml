@@ -3,6 +3,9 @@ title: "Andrew's Blog"
 description: |
   Andrew's Blog
 output_dir: "."
+base_url: https://andrewstiegler.github.io
+collections:
+  posts
 navbar:
   right:
     - text: "Home"

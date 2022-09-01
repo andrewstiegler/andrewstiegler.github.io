@@ -1,0 +1,14 @@
+---
+title: "Test Blog Post"
+description: 
+  a test post to see if this works
+site: distill::distill_website
+---
+This is a test to see what works.
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+test <- 4+4
+test
+
+```
