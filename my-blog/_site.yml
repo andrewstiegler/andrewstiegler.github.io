@@ -1,7 +1,7 @@
-name: "my-blog"
-title: "My Blog Test"
+name: "Andrew's Data Blog"
+title: "Data explorations"
 description: |
-  My Blog Test
+  Using data and statistics to answer fun questions about stuff.
 output_dir: "."
 navbar:
   right:
