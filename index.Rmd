@@ -1,5 +1,5 @@
 ---
-title: "My Blog Test"
+title: "Andrew's Data Blog"
 site: distill::distill_website
 listing: posts
 ---
