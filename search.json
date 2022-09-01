@@ -5,15 +5,15 @@
       "title": "About this site",
       "description": "Some additional details about the website",
       "author": [],
-      "contents": "\n\n\n\n",
-      "last_modified": "2022-09-01T17:11:58+00:00"
+      "contents": "\nThis website is created by Dr. Andrew Stiegler.\n\n\n\n",
+      "last_modified": "2022-09-01T17:21:14+00:00"
     },
     {
       "path": "index.html",
-      "title": "Andrew's Cool Blog",
+      "title": "The data doctoR",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2022-09-01T17:11:59+00:00"
+      "last_modified": "2022-09-01T17:21:14+00:00"
     }
   ],
   "collections": ["posts/posts.json"]

@@ -9,27 +9,27 @@
     <generator>Distill</generator>
     <lastBuildDate>Thu, 01 Sep 2022 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>test post what's wrong 3</title>
+      <title>My first post</title>
       <dc:creator>andrewstiegler</dc:creator>
-      <link>https://andrewstiegler.github.io/posts/2022-09-01-test-blog-post</link>
-      <description>A short description of the post.</description>
-      <guid>https://andrewstiegler.github.io/posts/2022-09-01-test-blog-post</guid>
+      <link>https://andrewstiegler.github.io/posts/2022-09-01-my-first-post</link>
+      <description>An introduction to the blog.</description>
+      <guid>https://andrewstiegler.github.io/posts/2022-09-01-my-first-post</guid>
       <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
     </item>
     <item>
-      <title>test post what's wrong</title>
+      <title>My Second Post</title>
       <dc:creator>andrewstiegler</dc:creator>
-      <link>https://andrewstiegler.github.io/posts/2022-09-01-test-post-three</link>
-      <description>A short description of the post.</description>
-      <guid>https://andrewstiegler.github.io/posts/2022-09-01-test-post-three</guid>
+      <link>https://andrewstiegler.github.io/posts/2022-09-01-my-second-post</link>
+      <description>Filler for another post.</description>
+      <guid>https://andrewstiegler.github.io/posts/2022-09-01-my-second-post</guid>
       <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
     </item>
     <item>
-      <title>test post what's wrong</title>
+      <title>post #3</title>
       <dc:creator>andrewstiegler</dc:creator>
-      <link>https://andrewstiegler.github.io/posts/2022-09-01-test-post-whats-wrong</link>
-      <description>A short description of the post.</description>
-      <guid>https://andrewstiegler.github.io/posts/2022-09-01-test-post-whats-wrong</guid>
+      <link>https://andrewstiegler.github.io/posts/2022-09-01-post-3</link>
+      <description>A test description of the post.</description>
+      <guid>https://andrewstiegler.github.io/posts/2022-09-01-post-3</guid>
       <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
     </item>
   </channel>
