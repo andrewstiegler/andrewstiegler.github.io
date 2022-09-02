@@ -1,7 +1,7 @@
 name: "."
-title: "Andrew's Blog"
+title: "the data doctoR"
 description: |
-  Andrew's Blog
+  data and statistics using R to answer fun questions
 output_dir: "."
 base_url: https://andrewstiegler.github.io
 collections:

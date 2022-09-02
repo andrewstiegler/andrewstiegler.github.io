@@ -1,7 +1,7 @@
 ---
-title: "post #3"
+title: "What's up with homeruns?"
 description: |
-  A test description of the post.
+  How have home run rates changed over time?
 author:
   - name: andrewstiegler
 date: 2022-09-01
@@ -9,14 +9,70 @@ output:
   distill::distill_article:
     self_contained: false
 ---
-
+How have home run rates changed? Are there more homeruns now than ever?
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+In order to look at baseball data in R, we need a good baseball database.
+Luckily one exists for R already - the [Lahman dataset](https://www.seanlahman.com/baseball-archive/statistics/).
 
-Distill is a publication format for scientific and technical writing, native to the web.
+In fact, there's even an R package available for it thanks to [Chris Dalzell and his team](https://github.com/cdalzell/Lahman).
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+Let's use this dataset to figure out if homerun rates are high now compared to historical data.
+First, what's the average rate of home runs per plate appearance over time? Checking the data...
 
+```{r}
+library(Lahman)
+library(tidyverse)
+library(plotly)
+library(tseries)
 
+# Read data from Lahman's database of Batting
+batting_df <- Batting
+
+# Add function for getting player names
+player_name_vec <- function(playerID){
+  player_info <- playerInfo(playerID)
+  player_name <- paste(player_info[2], player_info[3])
+  return(player_name)
+}
+
+# Add PA stat and HR/PA
+batting_data <- batting_df %>% mutate(PA = AB + BB + IBB + SH + SF)
+batting_data <- batting_data %>% mutate(HR_rate = HR / PA)
+batting_data <- batting_data %>% filter(yearID > 1955)
+# batting_data$name <- sapply(batting_data$playerID, player_name_vec)
+
+# Add the yearly average HR rate
+yearly_rate <- batting_data %>% group_by(yearID) %>%
+  summarise(HR_rate_mean = mean(HR_rate, na.rm = T))
+colnames(yearly_rate) <- c("yearID", "HR_rate_mean")
+
+batting_data <- full_join(batting_data, yearly_rate, by = "yearID")
+batting_data$HR_normalized <- batting_data$HR_rate / batting_data$HR_rate_mean
+
+hr_rate_over_time <- ggplot(batting_data, aes(x = yearID, y = HR_rate_mean))+
+  geom_line()+
+  xlab("Year")+
+  ylab("HR per PA")+
+  ggtitle("Homeruns per Plate Appearance, 1955-present")+
+  theme_classic()
+
+hr_rate_over_time_plotly <- ggplotly(hr_rate_over_time)
+hr_rate_over_time_plotly
+```
+It looks like 2020 was an outlier, so let's smooth the data and look for a trend over time 
+by checking the time series is stationary. We can use the Augmented Dickey-Fuller test
+from the tseries package.
+```{r}
+hr_rate_over_time_smooth <- hr_rate_over_time+
+  geom_smooth()
+
+hr_rate_over_time_smooth_plotly <- ggplotly(hr_rate_over_time_smooth)
+hr_rate_over_time_plotly
+
+adf_results <- yearly_rate %>% filter(yearID > 1955) %>% pull(HR_rate_mean) %>% adf.test()
+adf_results
+
+```

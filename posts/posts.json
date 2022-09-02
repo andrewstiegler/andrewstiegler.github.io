@@ -35,8 +35,8 @@
   },
   {
     "path": "posts/2022-09-01-post-3/",
-    "title": "post #3",
-    "description": "A test description of the post.",
+    "title": "What's up with homeruns?",
+    "description": "How have home run rates changed over time?",
     "author": [
       {
         "name": "andrewstiegler",
@@ -45,9 +45,9 @@
     ],
     "date": "2022-09-01",
     "categories": [],
-    "contents": "\nDistill is a publication format for scientific and technical writing,\nnative to the web.\nLearn more about using Distill at https://rstudio.github.io/distill.\n\n\n\n",
+    "contents": "\nHow have home run rates changed? Are there more homeruns now than\never?\nIn order to look at baseball data in R, we need a good baseball\ndatabase. Luckily one exists for R already - the Lahman\ndataset\nIn fact, there’s even an R package available for it thanks to Chris Dalzell and his\nteam\nLet’s use this dataset to figure out if homerun rates are high now\ncompared to historical data. First, what’s the average rate of home runs\nper plate appearance over time? Checking the data…\n\n\n\n\n\n\n",
     "preview": {},
-    "last_modified": "2022-09-01T17:20:45+00:00",
-    "input_file": {}
+    "last_modified": "2022-09-02T14:27:29+00:00",
+    "input_file": "test-post-whats-wrong.knit.md"
   }
 ]

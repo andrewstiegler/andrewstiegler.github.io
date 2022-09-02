@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
   <channel>
-    <title>Andrew's Blog</title>
+    <title>the data doctoR</title>
     <link>https://andrewstiegler.github.io</link>
     <atom:link href="https://andrewstiegler.github.io/index.xml" rel="self" type="application/rss+xml"/>
-    <description>Andrew's Blog
+    <description>data and statistics using R to answer fun questions
 </description>
     <generator>Distill</generator>
     <lastBuildDate>Thu, 01 Sep 2022 00:00:00 +0000</lastBuildDate>
@@ -25,10 +25,10 @@
       <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
     </item>
     <item>
-      <title>post #3</title>
+      <title>What's up with homeruns?</title>
       <dc:creator>andrewstiegler</dc:creator>
       <link>https://andrewstiegler.github.io/posts/2022-09-01-post-3</link>
-      <description>A test description of the post.</description>
+      <description>How have home run rates changed over time?</description>
       <guid>https://andrewstiegler.github.io/posts/2022-09-01-post-3</guid>
       <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
     </item>
