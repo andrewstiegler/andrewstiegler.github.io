@@ -1,11 +1,13 @@
-name: "."
+name: "the-data-doctoR"
 title: "the data doctoR"
 description: |
   data and statistics using R to answer fun questions
 output_dir: "."
 base_url: https://andrewstiegler.github.io
 collections:
-  posts
+  posts:
+    disqus: the-data-doctoR
+    share: [facebook, twitter, linkedin]
 navbar:
   right:
     - text: "Home"
