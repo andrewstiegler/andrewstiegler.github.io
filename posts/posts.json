@@ -1,20 +1,22 @@
 [
   {
     "path": "posts/2022-09-01-my-first-post/",
-    "title": "My first post",
-    "description": "An introduction to the blog.",
+    "title": "Expected outcomes in MTG Arena drafts",
+    "description": "The format of Magic the Gatering: Arena premier drafts results in non-intuitive payouts.",
     "author": [
       {
         "name": "andrewstiegler",
         "url": {}
       }
     ],
-    "date": "2022-09-01",
+    "date": "2022-09-06",
     "categories": [],
-    "contents": "\nThis is a data and statistics blog created using R.\n\n\n\n",
-    "preview": {},
-    "last_modified": "2022-09-02T14:58:29+00:00",
-    "input_file": {}
+    "contents": "\nMagic the Gathering: Arena is an online client for playing the\ncollectable card game Magic the Gathering (MTG). One of the most popular\nMTG formats is Booster Draft - players open booster packs, build their\ndecks, and play until reaching either 7 wins or 3 losses. Depending on\nyour record at the end of the event, you receive rewards. MTG:A Premier\ndrafts have the following payout structure:\n\n\nWins\n\n\nGems\n\n\nPacks\n\n\n7\n\n\n2200\n\n\n6\n\n\n6\n\n\n1800\n\n\n5\n\n\n5\n\n\n1600\n\n\n4\n\n\n4\n\n\n1400\n\n\n3\n\n\n3\n\n\n1000\n\n\n2\n\n\n2\n\n\n250\n\n\n2\n\n\n1\n\n\n100\n\n\n1\n\n\n0\n\n\n50\n\n\n1\n\n\nHowever, you can’t just use your win rate to calculate expected value\nfrom this event. That’s because the “first to 7 wins or 3 losses” format\nresults in lower-than-expected event win rates for a given game\nwin-rate. Consider the following sequence of games:\n\n\nGame 1\n\n\nGame 2\n\n\nGame 3\n\n\nGame 4\n\n\nGame 5\n\n\nW\n\n\nW\n\n\nL\n\n\nL\n\n\nL\n\n\nW\n\n\nL\n\n\nL\n\n\nL\n\n\nW\n\n\nWhile both sequences end up with 2 wins and 3 losses, the second\nsequence’s final win wouldn’t be counted, as you’d be eliminated after\nthe 3rd loss, and you’d only get 100 gems (compared to 250 gems in the\nfirst sequence).\nLet’s simulate this event structure at different win rates to see\nwhat the payouts are like. We’ll simulate 3000 events (sequences ending\nat 7 wins or 3 losses) for various winrates. Then we’ll calculate the\nexpected gem payout, considering a premier draft costs 1500 gems to\nenter.\n\n\n\nFrom this, you can see you need a single-game win percentage of about\n65% before you can expect to break even on premier drafts in MTG:\nArena.\n\n\n\n",
+    "preview": "posts/2022-09-01-my-first-post/test-post-three_files/figure-html5/unnamed-chunk-3-1.png",
+    "last_modified": "2022-09-06T17:27:25+00:00",
+    "input_file": {},
+    "preview_width": 1248,
+    "preview_height": 768
   },
   {
     "path": "posts/2022-09-01-my-second-post/",

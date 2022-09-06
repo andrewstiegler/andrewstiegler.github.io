@@ -1,15 +1,99 @@
 ---
-title: "My first post"
+title: "Expected outcomes in MTG Arena drafts"
 description: |
-  An introduction to the blog.
+  The format of Magic the Gatering: Arena premier drafts results in non-intuitive payouts.
 author:
   - name: andrewstiegler
-date: 2022-09-01
+date: 2022-09-06
 output:
   distill::distill_article:
     self_contained: false
 ---
+Magic the Gathering: Arena is an online client for playing the collectable 
+card game Magic the Gathering (MTG). One of the most popular MTG formats is Booster Draft - players open booster packs, build their decks, and play until reaching either 7 wins or 3 losses. Depending on your record at the end of the event, you receive rewards. MTG:A Premier drafts have the following payout structure:  
 
-This is a data and statistics blog created using R.
+```{r, echo = FALSE}
+library(tidyverse)
+library(data.table)
+library(knitr)
+library(kableExtra)
 
+payouts <- tibble("Wins" = c(7, 6, 5, 4, 3, 2, 1, 0),
+                  "Gems" = c(2200, 1800, 1600, 1400, 1000, 250, 100, 50),
+                  "Packs" = c(6, 5, 4, 3, 2, 2, 1, 1))
+kable(payouts) %>% kable_paper("hover", full_width = F)
+```
 
+However, you can't just use your win rate to calculate expected value from this event. 
+That's because the "first to 7 wins or 3 losses" format results in lower-than-expected 
+event win rates for a given game win-rate. Consider the following sequence of games:
+
+```{r, echo = FALSE}
+games = tibble("Game 1" = c("W", "W"), "Game 2" = c("W", "L"),
+               "Game 3" = c("L", "L"), "Game 4" = c("L", "L"),
+               "Game 5" = c("L", "W"))
+kable(games) %>% kable_paper("hover", full_width = F)
+```
+
+While both sequences end up with 2 wins and 3 losses, the second sequence's final win wouldn't be counted, as you'd be eliminated after the 3rd loss, and you'd only get 100 gems
+(compared to 250 gems in the first sequence).
+
+Let's simulate this event structure at different win rates to see what the payouts are like.
+We'll simulate 3000 events (sequences ending at 7 wins or 3 losses) for various winrates.
+Then we'll calculate the expected gem payout, considering a premier draft costs 1500 gems to enter.
+
+```{r, echo = F}
+set.seed(1234)
+
+# Function to output W/L depending on winrate
+game_result <- function(wp){
+  return(if(wp > runif(1)){"W"} else {"L"})
+}
+
+# Function to return gems after entry cost for different wins
+gem_return <- function(wins){
+  return_values <- c(-1450, -1400, -1250, -500, -100, 100, 300, 700)
+  gems <- return_values[wins + 1]
+  return(gems)
+}
+
+# function to simulate number of events at specific win percent
+event_result <- function(wp, reps){
+  
+  i <- 1
+  results_list <- list()
+  
+  while(i <= reps){
+    event_outcomes <- tibble("wins" = 0, "losses" = 0)
+    n_wins <- 0
+    n_losses <- 0
+    
+    while(n_wins < 7 & n_losses < 3){
+      game_outcome <- game_result(wp)
+      if(game_outcome == "W"){n_wins <- n_wins + 1}
+      else{n_losses <- n_losses + 1}
+    }
+    event_outcomes$wins <- n_wins
+    event_outcomes$losses <- n_losses
+    results_list[[i]] <- event_outcomes
+    i <- i + 1
+  }
+  
+  results_tibble <- results_list %>% rbindlist() %>% tibble() %>%
+    mutate(gems = gem_return(wins))
+  results_tibble$wp <- wp
+  return(results_tibble)
+}
+
+wp_tibble <- c(0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65)
+events_final <- lapply(wp_tibble, event_result, reps = 3000) %>% rbindlist()
+
+ggplot(events_final)+
+  geom_boxplot(aes(x = wp, y = gems, group = wp))+
+  geom_hline(yintercept = 0, linetype = "dashed")+
+  xlab("Win percent (single games)")+
+  ylab("Expected gem return")+
+  theme_classic()
+```
+
+From this, you can see you need a single-game win percentage of about 65% before you can expect to break even on premier drafts in MTG: Arena.
