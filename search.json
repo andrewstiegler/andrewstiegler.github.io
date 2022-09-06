@@ -5,14 +5,14 @@
       "title": "About the data doctoR",
       "author": [],
       "contents": "\nThis is a website that tries to answer interesting questions using\ndata and the R computing environment. It is created and maintained by Dr. Andrew\nStiegler.\nThis website was built using R and distill for R Markdown, a\nweb publishing format optimized for scientific and technical\ncommunication.\nTo see the source code for this website and all posts, check\nit out here.\n\n\n\n",
-      "last_modified": "2022-09-06T17:27:55+00:00"
+      "last_modified": "2022-09-06T18:51:06+00:00"
     },
     {
       "path": "index.html",
       "title": "The data doctoR",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2022-09-06T17:27:56+00:00"
+      "last_modified": "2022-09-06T18:51:06+00:00"
     }
   ],
   "collections": ["posts/posts.json"]

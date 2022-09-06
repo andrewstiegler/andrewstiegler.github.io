@@ -1,5 +1,6 @@
 name: "the-data-doctoR"
 title: "the data doctoR"
+theme: theme.css
 description: |
   data and statistics using R to answer fun questions
 output_dir: "."
