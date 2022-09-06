@@ -7,14 +7,15 @@
     <description>data and statistics using R to answer fun questions
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 01 Sep 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 06 Sep 2022 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>My first post</title>
+      <title>Expected outcomes in MTG Arena drafts</title>
       <dc:creator>andrewstiegler</dc:creator>
       <link>https://andrewstiegler.github.io/posts/2022-09-01-my-first-post</link>
-      <description>An introduction to the blog.</description>
+      <description>The format of Magic the Gatering: Arena premier drafts results in non-intuitive payouts.</description>
       <guid>https://andrewstiegler.github.io/posts/2022-09-01-my-first-post</guid>
-      <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 06 Sep 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://andrewstiegler.github.io/posts/2022-09-01-my-first-post/test-post-three_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>My Second Post</title>
