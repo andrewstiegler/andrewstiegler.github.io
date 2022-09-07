@@ -1,9 +1,0 @@
----
-title: "About the data doctoR"
----
-This is a website that tries to answer interesting questions using data and the R computing environment. It is created and maintained by [Dr. Andrew Stiegler](https://www.linkedin.com/in/andrew-stiegler-63a5827a/).
-
-This website was built using R and [distill for R Markdown](https://rstudio.github.io/distill/), a web publishing format optimized for scientific and technical communication.
-
-To see the source code for this website and all posts, [check it out here](https://github.com/andrewstiegler/andrewstiegler.github.io).
-
