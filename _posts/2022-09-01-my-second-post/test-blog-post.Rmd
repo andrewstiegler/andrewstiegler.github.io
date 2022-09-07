@@ -1,20 +1,224 @@
 ---
-title: "My Second Post"
+title: "Evaluating Cards in MTG Drafts"
 description: |
-  Filler for another post.
+  How good are we at figuring out which cards win?
 author:
   - name: andrewstiegler
-date: 2022-09-01
+date: 2022-09-07
+preview: preview_plot.png
 output:
   distill::distill_article:
     self_contained: false
 ---
-
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+Drafting Magic: The Gathering (or anything, really) requires you to predict in advance the best picks for what you need. It's not easy to know in advance if you've made the right pick or not. Thanks to the team over at [17lands](https://www.17lands.com/), we can use the aggregated data of everyone who has installed their tracker to rate MTG cards. 
+One thing that's nice about this data is that there is data for pick priority, as well as in-game performance for each card. The simplest ways of thinking about this are using the two metrics of "average taken at" (ATA), and "game-in-hand win-rate" (GIH WR). These metrics describe when a card is picked on average, and how often a card wins on average when it's actually in hand at some point in the game.
+Here's a plot of ATA against GIH WR, using the latest available draft set, Dominaria United:
 
-Distill is a publication format for scientific and technical writing, native to the web.
+```{r}
+library(jsonlite) #for parsing JSON data from 17lands and scryfall
+library(tidyverse) #for data wrangling and cleaning
+library(data.table) #for rbindlist later
+library(plotly) #for interactive plots
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+#This function creates a well-formatted string for querying 17lands API
+create_url_string <- function(set, start_date = "2019_01_01",
+                              end_date = "2022_12_31"){
+  
+  end_date <- Sys.Date() %>% toString() %>% str_replace_all("-", "_")
+  
+  string <- paste("https://www.17lands.com/card_ratings/data?expansion=",
+                  set,
+                  "&format=PremierDraft",
+                  "&start_date=",
+                  start_date,
+                  "&end_date=",
+                  end_date,
+                  sep = "")
+  return(string)
+}
+#This function returns a character vector of each type extracted from 
+#scryfall typeline
+type_match <- function(string){
+  types <- c("Sorcery", "Instant", "Creature", "Enchantment", "Artifact", "Land",
+             "Equipment", "Aura", "Legendary", "Planeswalker")
+  
+  empty_list <- list()
+  for(i in 1:length(types)){
+    empty_list[[i]] <- as.numeric(grep(types[i], string))
+    i <- i + 1
+    
+    real_type <- types[grep(1, empty_list)]
+  }
+  return(real_type)
+}
+
+# This function encodes rarity into a numeric
+rarity_encoder <- function(string){
+  if(string == "common"){rarity_enc <- 1}
+  if(string == "uncommon"){rarity_enc <- 2}
+  if(string == "rare"){rarity_enc <- 3}
+  if(string == "mythic"){rarity_enc <- 4}
+  
+  return(rarity_enc)
+}
+
+# This function encodes color into a numeric (1-5 for monocolor, 
+# 6 for "not monocolor")
+color_encoder <- function(string){
+  color_enc <- NA
+  if(string == "W"){color_enc <- 1}
+  if(string == "U"){color_enc <- 2}
+  if(string == "R"){color_enc <- 3}
+  if(string == "B"){color_enc <- 4}
+  if(string == "G"){color_enc <- 5}
+  if(string != "W" & string != "U" & string != "R" & string != "B" & string != "G"){color_enc <- 6}
+  if(string == ""){color_enc <- 0}
+  return(color_enc)
+}
+
+# This function downloads single-card data from scryfall based on url
+extract_scryfall_per_card <- function(url){
+  card_data_list <- fromJSON(paste("https://api.scryfall.com/cards/",
+                                   url %>% substr(., 67, 102), sep = ""))
+  
+  type_string <- type_match(card_data_list$type_line)
+  
+  dual_face_check <- if("card_faces" %in% names(card_data_list)){1}else{0}
+  
+  card_tibble <- tibble("name" = card_data_list$name,
+                        "colors" = toString(card_data_list$color_identity),
+                        "cmc" = card_data_list$cmc,
+                        "is_artifact" = if(sum(grep("Artifact", 
+                                                    type_match(type_string))) > 0){1}else{0},
+                        "is_creature" = if(sum(grep("Creature", 
+                                                    type_match(type_string))) > 0){1}else{0},
+                        "is_instant" = if(sum(grep("Instant", 
+                                                    type_match(type_string))) > 0){1}else{0},
+                        "is_sorcery" = if(sum(grep("Sorcery", 
+                                                    type_match(type_string))) > 0){1}else{0},
+                        "is_enchantment" = if(sum(grep("Enchantment", 
+                                                    type_match(type_string))) > 0){1}else{0},
+                        "is_land" = if(sum(grep("Land", 
+                                                    type_match(type_string))) > 0){1}else{0},
+                        "is_equipment" = if(sum(grep("Equipment", 
+                                                    type_match(type_string))) > 0){1}else{0},
+                        "is_planeswalker" = if(sum(grep("Planeswalker", 
+                                                     type_match(type_string))) > 0){1}else{0},
+                        "power" = if(sum(grep("Creature", 
+                                              type_match(type_string))) > 0){card_data_list$power}else{0},
+                        "toughness" = if(sum(grep("Creature", 
+                                                  type_match(type_string))) > 0){card_data_list$toughness}else{0},
+                        "text" = if(dual_face_check == 0){card_data_list$oracle_text}else{card_data_list$card_faces[1,5]},
+                        "rarity" = rarity_encoder(card_data_list$rarity),
+                        "pips" = str_count(card_data_list$mana_cost, "\\}"),
+                        "url" = url)
+  if(dual_face_check == 1){
+    
+    card_back_type_string <- type_match(card_data_list$card_faces[2,4])
+    
+    card_tibble$power <- if(sum(grep("Creature", 
+                                     type_match(card_back_type_string))) > 0){card_data_list$card_faces[1,7]}else{0}
+    card_tibble$toughness <- if(sum(grep("Creature", 
+                                         type_match(card_back_type_string))) > 0){card_data_list$card_faces[1,8]}else{0}
+    card_tibble$text <- card_data_list$card_faces[1,5]
+    
+    card_tibble_back <- tibble("name" = card_data_list$card_faces[2,2],
+                               "colors" = toString(card_data_list$color_identity),
+                               "cmc" = card_data_list$cmc,
+                               "is_artifact" = if(sum(grep("Artifact", 
+                                                           type_match(card_back_type_string))) > 0){1}else{0},
+                               "is_creature" = if(sum(grep("Creature", 
+                                                           type_match(card_back_type_string))) > 0){1}else{0},
+                               "is_instant" = if(sum(grep("Instant", 
+                                                          type_match(card_back_type_string))) > 0){1}else{0},
+                               "is_sorcery" = if(sum(grep("Sorcery", 
+                                                          type_match(card_back_type_string))) > 0){1}else{0},
+                               "is_enchantment" = if(sum(grep("Enchantment", 
+                                                              type_match(card_back_type_string))) > 0){1}else{0},
+                               "is_land" = if(sum(grep("Land", 
+                                                       type_match(card_back_type_string))) > 0){1}else{0},
+                               "is_equipment" = if(sum(grep("Equipment", 
+                                                            type_match(card_back_type_string))) > 0){1}else{0},
+                               "is_planeswalker" = if(sum(grep("Planeswalker", 
+                                                               type_match(card_back_type_string))) > 0){1}else{0},
+                               "power" = if(sum(grep("Creature", 
+                                                     type_match(card_back_type_string))) > 0){card_data_list$card_faces[2,7]}else{0},
+                               "toughness" = if(sum(grep("Creature", 
+                                                         type_match(card_back_type_string))) > 0){card_data_list$card_faces[2,8]}else{0},
+                               "text" = card_data_list$card_faces[2,5],
+                               "rarity" = rarity_encoder(card_data_list$rarity),
+                               "url" = url)
+    card_tibble <- rbind(card_tibble, card_tibble_back) %>% tibble() %>% relocate(url, .after = text)
+    card_tibble$power <- as.numeric(card_tibble$power)
+    card_tibble$toughness <- as.numeric(card_tibble$toughness)
+    card_tibble <- card_tibble %>% select(name, colors, cmc, is_artifact, is_creature, is_instant,
+                                          is_sorcery, is_enchantment, is_land, is_equipment,
+                                          is_planeswalker, power, toughness, text, rarity, url)
+  }
+  
+  card_tibble$color_enc <- sapply(card_tibble$colors, color_encoder)
+  return(card_tibble)
+}
+
+#This function pulls in all set data from scryfall based on a processed 17lands dataset
+extract_set <- function(data){
+  urls <- data$url
+  
+  data_extracted <- list()
+  for(i in 1:length(urls)){
+    data_extracted[[i]] <- extract_scryfall_per_card(urls[i])
+    Sys.sleep(0.15) #wait for the API
+    i <- i + 1
+  }
+  data_tibble <- rbindlist(data_extracted, use.names = TRUE,
+                           fill = TRUE) %>% tibble()
+  
+  return(data_tibble)
+}
+
+# This function pulls a 17lands/scryfall combo dataset when passed 3-letter set string
+pull_set_data <- function(set_string){
+  set_data <- fromJSON(create_url_string(set_string))
+  
+  # Extract data from scryfall for card info
+  set_extracted <- extract_set(set_data)
+  
+  # Join 17lands and scryfall data
+  set_joined <- full_join(set_extracted, set_data, by = "url")
+  
+  output_list <- list("17lands" = set_data,
+                      "scryfall" = set_extracted,
+                      "joined" = set_joined)
+  return(output_list)
+}
+
+dmu_stats <- pull_set_data("DMU")
+
+mtg_colors_full <- c("1" = "#F9FAF4", "2" = "#0E68AB", "3" = "#D3202A", 
+                     "4" = "#150B01", "5" = "#01733E", 
+                     "6" = "#D4AF37", 
+                     "0" = "#c0c0c0")
+mtg_colors_simple <- c("#c0c0c0", "#F9FAF4","#0E68AB","#D3202A", "#150B01","#01733E", 
+                       "#D4AF37")
+
+value_plot <- ggplot(dmu_stats[[3]])+
+    geom_abline(slope = 0, intercept = 0.5)+
+    geom_point(aes(x = avg_pick, y = ever_drawn_win_rate, 
+                   text = name.x, fill = factor(color_enc)),
+               shape = 21)+
+    geom_smooth(aes(x = avg_pick, y = ever_drawn_win_rate))+
+    scale_fill_manual(values = mtg_colors_simple)+
+    xlab("Average Pick")+
+    ylab("Overall Win Rate")+
+    theme_classic()+
+    theme(legend.position = "none")
+
+ggsave("preview_plot.png", value_plot)
+interactive_plot <- ggplotly(value_plot, tooltip = "text")
+interactive_plot
+```
+
+You can mouse-over the plot and see the card names. Cards above the line are better than you'd expect from their pick rate. This makes sense with excellent cards (like [Archangel of Wrath](https://scryfall.com/card/dmu/3/archangel-of-wrath)). Cards below the line are worse than you'd expect (sorry [Urza Assembles the Titans](https://scryfall.com/card/dmu/37/urza-assembles-the-titans)).

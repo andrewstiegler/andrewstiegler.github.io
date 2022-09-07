@@ -7,7 +7,16 @@
     <description>data and statistics using R to answer fun questions
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 06 Sep 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 07 Sep 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Evaluating Cards in MTG Drafts</title>
+      <dc:creator>andrewstiegler</dc:creator>
+      <link>https://andrewstiegler.github.io/posts/2022-09-01-my-second-post</link>
+      <description>How good are we at figuring out which cards win?</description>
+      <guid>https://andrewstiegler.github.io/posts/2022-09-01-my-second-post</guid>
+      <pubDate>Wed, 07 Sep 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://andrewstiegler.github.io/posts/2022-09-01-my-second-post/preview_plot.png" medium="image" type="image/png" width="1950" height="1200"/>
+    </item>
     <item>
       <title>Expected outcomes in MTG Arena drafts</title>
       <dc:creator>andrewstiegler</dc:creator>
@@ -16,14 +25,6 @@
       <guid>https://andrewstiegler.github.io/posts/2022-09-01-my-first-post</guid>
       <pubDate>Tue, 06 Sep 2022 00:00:00 +0000</pubDate>
       <media:content url="https://andrewstiegler.github.io/posts/2022-09-01-my-first-post/test-post-three_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
-    <item>
-      <title>My Second Post</title>
-      <dc:creator>andrewstiegler</dc:creator>
-      <link>https://andrewstiegler.github.io/posts/2022-09-01-my-second-post</link>
-      <description>Filler for another post.</description>
-      <guid>https://andrewstiegler.github.io/posts/2022-09-01-my-second-post</guid>
-      <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>What's up with homeruns?</title>
