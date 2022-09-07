@@ -5,6 +5,7 @@ description: |
 author:
   - name: andrewstiegler
 date: 2022-09-01
+preview: hr_preview_plot.png
 output:
   distill::distill_article:
     self_contained: false
@@ -56,6 +57,7 @@ hr_rate_over_time <- ggplot(batting_data, aes(x = yearID, y = HR_rate_mean))+
   ggtitle("Homeruns per Plate Appearance, 1955-present")+
   theme_classic()
 
+ggsave("hr_preview_plot.png", hr_rate_over_time)
 hr_rate_over_time_plotly <- ggplotly(hr_rate_over_time)
 hr_rate_over_time_plotly
 ```
