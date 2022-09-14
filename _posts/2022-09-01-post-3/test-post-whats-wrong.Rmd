@@ -1,5 +1,5 @@
 ---
-title: "What's up with homeruns?"
+title: "What's up with home runs?"
 description: |
   How have home run rates changed over time?
 author:
@@ -10,20 +10,22 @@ output:
   distill::distill_article:
     self_contained: false
 ---
-How have home run rates changed? Are there more homeruns now than ever?
+How have home run rates changed? Are there more home runs now than ever?
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 In order to look at baseball data in R, we need a good baseball database.
 Luckily one exists for R already - the [Lahman dataset](https://www.seanlahman.com/baseball-archive/statistics/). 
-In fact, there's even an R package available for it thanks to [Chris Dalzell and his team](https://github.com/cdalzell/Lahman). Let's use this dataset to figure out if homerun rates are high now compared to historical data. First, what's the average rate of home runs per plate appearance over time? Checking the data...  
+In fact, there's even an R package available for it thanks to [Chris Dalzell and his team](https://github.com/cdalzell/Lahman). Let's use this dataset to figure out if home run rates are high now compared to historical data. First, what's the average rate of home runs per plate appearance over time? Checking the data...  
 
 ```{r, fig.align = "center", out.width = "100%"}
 library(Lahman)
 library(tidyverse)
 library(plotly)
 library(tseries)
+library(knitr)
+library(kableExtra)
 
 # Read data from Lahman's database of Batting
 batting_df <- Batting
