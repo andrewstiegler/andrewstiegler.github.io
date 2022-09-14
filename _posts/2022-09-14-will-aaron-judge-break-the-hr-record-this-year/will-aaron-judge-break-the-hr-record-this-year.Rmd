@@ -1,0 +1,102 @@
+---
+title: "Will Aaron Judge break the HR record this year?"
+description: |
+  Looking at home runs per game played in some of the best seasons.
+author:
+  - name: andrewstiegler
+date: 2022-09-14
+preview:
+output:
+  distill::distill_article:
+    self_contained: false
+---
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+Aaron Judge has been on a tear recently, hitting two more HR last night to get very close to the single-season record. Here's a look at Judge's homeruns against games played this season.  
+
+```{r}
+knitr::opts_chunk$set(echo = FALSE)
+library(baseballr)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(plotly)
+
+judge_id <- playerid_lookup("Judge", "Aaron")
+judge_logs <- fg_batter_game_logs(judge_id$fangraphs_id, year = 2022)
+judge_logs$G_total <- cumsum(judge_logs$G) %>% rev()
+judge_logs$HR_total <- cumsum(judge_logs$HR) %>% rev()
+
+judge_plot <- ggplot(judge_logs)+
+  geom_line(aes(x = G_total, y = HR_total))+
+  geom_hline(yintercept = 73, linetype = "dashed")+
+  geom_vline(xintercept = 162, linetype = "dashed")+
+  xlab("Total Games")+
+  ylab("Total HR")+
+  ggtitle("Home Runs per Total Games", subtitle = "Aaron Judge in 2022")+
+  annotate("text", x = 45, y = 75, label = "Bonds Single-Season HR Record (73)")+
+  theme_classic()
+
+judge_plot
+```
+
+It looks like a fairly linear slope, so I'll add a linear trendline and check the fit. I'll also add Bonds's record-breaking season to the plot.  
+
+```{r}
+get_hr_log <- function(last_name, first_name, year){
+  player_id <- playerid_lookup(last_name, first_name)
+  player_logs <- fg_batter_game_logs(player_id$fangraphs_id, year = year)
+  player_logs$G_total <- cumsum(player_logs$G) %>% rev()
+  player_logs$HR_total <- cumsum(player_logs$HR) %>% rev()
+  return(player_logs)
+}
+
+bonds_logs <- get_hr_log("Bonds", "Barry", 2001)
+
+judge_lm <- lm(HR_total ~ G_total, judge_logs)
+
+judge_lm_summary <- judge_lm %>% summary()
+
+judge_plot_2 <- ggplot()+
+  geom_line(data = judge_logs, aes(x = G_total, y = HR_total))+
+  geom_line(data = bonds_logs, aes(x = G_total, y = HR_total), linetype = "dashed")+
+  geom_abline(slope = judge_lm$coefficients[[2]], intercept = judge_lm$coefficients[[1]], color = "blue")+
+  geom_hline(yintercept = 73, linetype = "dashed")+
+  geom_vline(xintercept = 162, linetype = "dashed")+
+  xlab("Total Games")+
+  ylab("Total HR")+
+  ggtitle("Home Runs per Total Games", subtitle = "Aaron Judge in 2022, Bonds in 2001 in dashed line")+
+  theme_classic()
+
+judge_plot_2
+```
+
+The linear regression has a correleation coefficient of about 0.99, so it's a pretty good fit. Based on the linear model, Judge will end up with ~68.9 home runs for the year.  I'll also add a few of the other top home run seasons for comparison.
+
+```{r}
+hr_table <- tibble(last_name = c("Bonds", "McGwire", "Sosa"), first_name = c("Barry", "Mark", "Sammy"), home_runs = c(73, 70, 68), year = c(2001, 1998, 1998))
+
+hr_kable <- tibble("Name" = c(paste(hr_table[1,2], hr_table[1,1], sep = " "),
+                            paste(hr_table[2,2], hr_table[2,1], sep = " "),
+                            paste(hr_table[3,2], hr_table[3,1], sep = " ")),
+                   "Home Runs" = hr_table$home_runs,
+                   "Year" = hr_table$year) %>% kable()
+
+hr_kable %>% kable_paper("hover", full_width = F)
+
+all_logs <- mapply(get_hr_log, hr_table$last_name, hr_table$first_name, hr_table$year)
+
+judge_plot_final <- ggplot()+
+  geom_line(data = judge_logs, aes(x = G_total, y = HR_total))+
+  geom_line(data = all_logs$Bonds, aes(text = "Barry Bonds", x = G_total, y = HR_total), linetype = "dashed", color = "#FD5A1E")+
+  geom_line(data = all_logs$McGwire, aes(text = "Mark McGwire", x = G_total, y = HR_total), linetype = "dashed", color = "#003831")+
+  geom_line(data = all_logs$Sosa, aes(text = "Sammy Sosa", x = G_total, y = HR_total), linetype = "dashed", color = "#0E3386")+
+  xlab("Total Games")+
+  ylab("Total HR")+
+  ggtitle("Home Runs per Total Games", subtitle = "Aaron Judge in 2022, Bonds in 2001 in dashed line")+
+  theme_classic()
+
+ggplotly(judge_plot_final, tooltip = c("text", "x", "y"))
+
+```
