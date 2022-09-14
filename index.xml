@@ -7,7 +7,16 @@
     <description>data and statistics using R to answer fun questions
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 07 Sep 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 14 Sep 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Will Aaron Judge break the HR record this year?</title>
+      <dc:creator>andrewstiegler</dc:creator>
+      <link>https://andrewstiegler.github.io/posts/2022-09-14-will-aaron-judge-break-the-hr-record-this-year</link>
+      <description>Looking at home runs per game played in some of the best seasons.</description>
+      <guid>https://andrewstiegler.github.io/posts/2022-09-14-will-aaron-judge-break-the-hr-record-this-year</guid>
+      <pubDate>Wed, 14 Sep 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://andrewstiegler.github.io/posts/2022-09-14-will-aaron-judge-break-the-hr-record-this-year/will-aaron-judge-break-the-hr-record-this-year_files/figure-html5/unnamed-chunk-1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Evaluating Cards in MTG Drafts</title>
       <dc:creator>andrewstiegler</dc:creator>
@@ -27,12 +36,13 @@
       <media:content url="https://andrewstiegler.github.io/posts/2022-09-01-my-first-post/test-post-three_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
-      <title>What's up with homeruns?</title>
+      <title>What's up with home runs?</title>
       <dc:creator>andrewstiegler</dc:creator>
       <link>https://andrewstiegler.github.io/posts/2022-09-01-post-3</link>
       <description>How have home run rates changed over time?</description>
       <guid>https://andrewstiegler.github.io/posts/2022-09-01-post-3</guid>
       <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://andrewstiegler.github.io/posts/2022-09-01-post-3/hr_preview_plot.png" medium="image" type="image/png" width="1950" height="1200"/>
     </item>
   </channel>
 </rss>
