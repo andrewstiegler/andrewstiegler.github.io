@@ -72,7 +72,9 @@ judge_plot_2 <- ggplot()+
 judge_plot_2
 ```
 
-The linear regression has a correleation coefficient of about 0.99, so it's a pretty good fit. Based on the linear model, Judge will end up with ~68.9 home runs for the year.  I'll also add a few of the other top home run seasons for comparison.
+The linear regression has a correleation coefficient of about 0.99, so it's a pretty good fit. Based on the linear model and the Yankees having 19 more games to play, Judge will end up with ~66.4 home runs for the year if he plays every game.  
+
+Here's Judge's 2022 season against a few of the other top home run seasons for comparison.
 
 ```{r}
 hr_table <- tibble(last_name = c("Bonds", "McGwire", "Sosa"), first_name = c("Barry", "Mark", "Sammy"), home_runs = c(73, 70, 68), year = c(2001, 1998, 1998))
@@ -88,15 +90,15 @@ hr_kable %>% kable_paper("hover", full_width = F)
 all_logs <- mapply(get_hr_log, hr_table$last_name, hr_table$first_name, hr_table$year)
 
 judge_plot_final <- ggplot()+
-  geom_line(data = judge_logs, aes(x = G_total, y = HR_total))+
-  geom_line(data = all_logs$Bonds, aes(text = "Barry Bonds", x = G_total, y = HR_total), linetype = "dashed", color = "#FD5A1E")+
-  geom_line(data = all_logs$McGwire, aes(text = "Mark McGwire", x = G_total, y = HR_total), linetype = "dashed", color = "#003831")+
-  geom_line(data = all_logs$Sosa, aes(text = "Sammy Sosa", x = G_total, y = HR_total), linetype = "dashed", color = "#0E3386")+
+  geom_line(data = judge_logs, aes(x = G_total, y = HR_total, text = "Aaron Judge", year = "2022"))+
+  geom_line(data = all_logs$Bonds, aes(text = "Barry Bonds", x = G_total, y = HR_total, year = "2001"), linetype = "dashed", color = "#FD5A1E")+
+  geom_line(data = all_logs$McGwire, aes(text = "Mark McGwire", x = G_total, y = HR_total, year = "1998"), linetype = "dashed", color = "#003831")+
+  geom_line(data = all_logs$Sosa, aes(text = "Sammy Sosa", x = G_total, y = HR_total, year = "1998"), linetype = "dashed", color = "#0E3386")+
   xlab("Total Games")+
   ylab("Total HR")+
   ggtitle("Home Runs per Total Games", subtitle = "Aaron Judge in 2022, Bonds in 2001 in dashed line")+
   theme_classic()
 
-ggplotly(judge_plot_final, tooltip = c("text", "x", "y"))
+ggplotly(judge_plot_final, tooltip = c("text", "year", "x", "y"))
 
 ```

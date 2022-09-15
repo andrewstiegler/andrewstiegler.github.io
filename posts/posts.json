@@ -11,9 +11,9 @@
     ],
     "date": "2022-09-14",
     "categories": [],
-    "contents": "\n\n\n\nAaron Judge has been on a tear recently, hitting two more HR last\nnight to get very close to the single-season record. Here’s a look at\nJudge’s homeruns against games played this season.\n\n\n\nIt looks like a fairly linear slope, so I’ll add a linear trendline\nand check the fit. I’ll also add Bonds’s record-breaking season to the\nplot.\n\n\n\nThe linear regression has a correleation coefficient of about 0.99,\nso it’s a pretty good fit. Based on the linear model, Judge will end up\nwith ~68.9 home runs for the year. I’ll also add a few of the other top\nhome run seasons for comparison.\n\n\nName\n\n\nHome Runs\n\n\nYear\n\n\nBarry Bonds\n\n\n73\n\n\n2001\n\n\nMark McGwire\n\n\n70\n\n\n1998\n\n\nSammy Sosa\n\n\n68\n\n\n1998\n\n\n\n\n\n\n",
+    "contents": "\n\n\n\nAaron Judge has been on a tear recently, hitting two more HR last\nnight to get very close to the single-season record. Here’s a look at\nJudge’s homeruns against games played this season.\n\n\n\nIt looks like a fairly linear slope, so I’ll add a linear trendline\nand check the fit. I’ll also add Bonds’s record-breaking season to the\nplot.\n\n\n\nThe linear regression has a correleation coefficient of about 0.99,\nso it’s a pretty good fit. Based on the linear model and the Yankees\nhaving 19 more games to play, Judge will end up with ~66.4 home runs for\nthe year if he plays every game.\nHere’s Judge’s 2022 season against a few of the other top home run\nseasons for comparison.\n\n\nName\n\n\nHome Runs\n\n\nYear\n\n\nBarry Bonds\n\n\n73\n\n\n2001\n\n\nMark McGwire\n\n\n70\n\n\n1998\n\n\nSammy Sosa\n\n\n68\n\n\n1998\n\n\n\n\n\n\n",
     "preview": "posts/2022-09-14-will-aaron-judge-break-the-hr-record-this-year/will-aaron-judge-break-the-hr-record-this-year_files/figure-html5/unnamed-chunk-1-1.png",
-    "last_modified": "2022-09-14T19:23:45+00:00",
+    "last_modified": "2022-09-15T14:39:39+00:00",
     "input_file": "will-aaron-judge-break-the-hr-record-this-year.knit.md",
     "preview_width": 1248,
     "preview_height": 768
